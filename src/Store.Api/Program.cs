@@ -1,3 +1,4 @@
+using Store.Api.Products;
 using Store.Api.Version;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -36,6 +37,7 @@ app.MapGet("/weatherforecast", () =>
 .WithName("GetWeatherForecast");
 
 app.MapVersionEndpoint();
+app.MapProductsEndpoint();
 
 app.Run();
 
