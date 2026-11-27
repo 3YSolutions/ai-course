@@ -20,11 +20,11 @@ public static class ProductsCache
 // The flag is read per request so configuration overrides apply without rebuilding the pipeline.
 public sealed class ProductsCachePolicy : IOutputCachePolicy
 {
-    public ValueTask CacheRequestAsync(OutputCacheContext context, CancellationToken cancellationToken)
+    public ValueTask CacheRequestAsync(OutputCacheContext context, CancellationToken cancellation)
     {
         var configuration = context.HttpContext.RequestServices.GetRequiredService<IConfiguration>();
         var request = context.HttpContext.Request;
-        var enabled = ProductsCache.IsEnabled(configuration)
+        bool enabled = ProductsCache.IsEnabled(configuration)
             && (HttpMethods.IsGet(request.Method) || HttpMethods.IsHead(request.Method));
 
         context.EnableOutputCaching = enabled;
@@ -41,10 +41,10 @@ public sealed class ProductsCachePolicy : IOutputCachePolicy
         return ValueTask.CompletedTask;
     }
 
-    public ValueTask ServeFromCacheAsync(OutputCacheContext context, CancellationToken cancellationToken) =>
+    public ValueTask ServeFromCacheAsync(OutputCacheContext context, CancellationToken cancellation) =>
         ValueTask.CompletedTask;
 
-    public ValueTask ServeResponseAsync(OutputCacheContext context, CancellationToken cancellationToken)
+    public ValueTask ServeResponseAsync(OutputCacheContext context, CancellationToken cancellation)
     {
         var response = context.HttpContext.Response;
         if (!StringValues.IsNullOrEmpty(response.Headers[HeaderNames.SetCookie]) || response.StatusCode != StatusCodes.Status200OK)
