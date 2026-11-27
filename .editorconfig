@@ -1,0 +1,21 @@
+# .editorconfig (excerpt)
+root = true
+
+[*.cs]
+indent_style = space
+indent_size = 4
+
+# Braces always, even for a one-line if
+csharp_prefer_braces = true:error
+
+# var only when the type is apparent
+csharp_style_var_for_built_in_types = false:warning
+csharp_style_var_when_type_is_apparent = true:warning
+
+# Analyzers used in the programming section
+dotnet_diagnostic.CA1852.severity = warning   # seal internal types
+dotnet_diagnostic.CA2016.severity = warning   # forward CancellationToken
+
+# Test names use Method_Scenario_Result
+[tests/**/*.cs]
+dotnet_diagnostic.CA1707.severity = none
