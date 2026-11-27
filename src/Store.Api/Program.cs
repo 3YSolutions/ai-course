@@ -1,3 +1,4 @@
+using Store.Api.Products;
 using Store.Api.Version;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -5,6 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+builder.Services.AddProductsCache();
 
 var app = builder.Build();
 
@@ -15,6 +17,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseOutputCache();
 
 string[] summaries =
 [
@@ -36,6 +39,7 @@ app.MapGet("/weatherforecast", () =>
 .WithName("GetWeatherForecast");
 
 app.MapVersionEndpoint();
+app.MapProductsEndpoint();
 
 app.Run();
 
